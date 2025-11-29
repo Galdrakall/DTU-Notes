@@ -2,7 +2,7 @@ This is the central hub for all weekly lecture notes in Cryptography.
 Each week links to a dedicated note with detailed explanations, examples, and exercises.
 
 ---
-## [[Slides.canvas|Slides, Excercises and Solutions]]
+## [[Slides, Excercises and Solutions.canvas|Slides, Excercises and Solutions]]
 ---
 ## Weeks
 ### Week 1 (Introduction and security mindset)
@@ -12,6 +12,8 @@ Each week links to a dedicated note with detailed explanations, examples, and ex
 - Threat models and adversaries
 - Kerckhoffs’ Principle
 - Perfect vs computational security
+**Links**
+
 ---
 ## Week 2 - Symmetric Encryption & One-Time Pad
 - [[W2 Notes]]
@@ -20,6 +22,7 @@ Each week links to a dedicated note with detailed explanations, examples, and ex
 - One-Time Pad (OTP)
 - Perfect secrecy
 - Real-or-Random security
+**Links**
 
 ---
 ## Week 3 – Pseudorandomness & PRFs
@@ -30,6 +33,7 @@ Each week links to a dedicated note with detailed explanations, examples, and ex
 - Pseudorandom functions (PRFs) ^0f7263
 - PRP vs PRF
 - Security reductions
+**Links**
 
 ---
 ##  Week 4 – Block Ciphers & Modes of Operation
@@ -41,7 +45,7 @@ Each week links to a dedicated note with detailed explanations, examples, and ex
 - CBC mode
 - CTR mode
 - Nonce reuse attacks
-
+**Links**
 ---
 ##  Week 5 – MACs & Authenticated Encryption
 - [[W5 Notes]]
@@ -51,7 +55,7 @@ Each week links to a dedicated note with detailed explanations, examples, and ex
 - CBC-MAC
 - Encrypt-then-MAC
 - IND-CCA security
-
+**Links**
 ---
 
 ## Week 6 – Hash Functions
@@ -62,7 +66,7 @@ Each week links to a dedicated note with detailed explanations, examples, and ex
 - Collision resistance
 - Merkle–Damgård construction
 - Salting
-
+**Links**
 ---
 
 ##  Week 7 – Public-Key Cryptography & RSA
@@ -74,7 +78,7 @@ Each week links to a dedicated note with detailed explanations, examples, and ex
 - RSA encryption & decryption
 - RSA-OAEP
 - Why raw RSA is insecure
-
+**Links**
 ---
 
 ##  Week 8 – Discrete Logarithms, DH & ElGamal
@@ -86,7 +90,7 @@ Each week links to a dedicated note with detailed explanations, examples, and ex
 - Man-in-the-middle attacks
 - ElGamal encryption
 - IND-CPA security
-
+**Links**
 ---
 
 ## Week 9 – Digital Signatures
@@ -97,7 +101,7 @@ Each week links to a dedicated note with detailed explanations, examples, and ex
 - RSA signatures
 - RSA-FDH
 - Use cases of digital signatures
-
+**Links**
 ---
 
 ##  Week 10 – Elliptic Curve Cryptography (ECC)
@@ -107,7 +111,7 @@ Each week links to a dedicated note with detailed explanations, examples, and ex
 - Point addition
 - Elliptic Curve Diffie–Hellman (ECDH)
 - Benefits over RSA/DH
-
+**Links**
 ---
 
 ##  Week 11 – Secure Messaging & Signal Protocol
@@ -118,7 +122,7 @@ Each week links to a dedicated note with detailed explanations, examples, and ex
 - Key ratcheting
 - X3DH
 - Signal protocol design
-
+**Links**
 ---
 
 ##  Week 12 – Quantum Computing & Post-Quantum Crypto
@@ -129,5 +133,5 @@ Each week links to a dedicated note with detailed explanations, examples, and ex
 - Quantum attacks on RSA, DH, ECC
 - Post-quantum cryptography
 - Lattice-based crypto (LWE, Regev)
-
+**Links**
 

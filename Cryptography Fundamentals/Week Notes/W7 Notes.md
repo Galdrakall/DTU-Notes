@@ -1,7 +1,9 @@
 ##  Learning Goals
 - Understand asymmetric encryption
 - Learn the RSA system
-
+- [[RSA vs Diffie-Hellmann|RSA vs Diffie-Hellmann]]
+- [[RSA Worked example]]
+- [[W7 Theorems]]
 ##  [[W7 Key Definitions|Key Definitions]]
 - Public key:
 - Private key:

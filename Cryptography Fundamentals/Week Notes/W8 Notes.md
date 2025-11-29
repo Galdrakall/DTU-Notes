@@ -2,26 +2,34 @@
 - Key exchange over public channels
 - Discrete log cryptography
 
-##  Key Definitions
+##  [[W8 Key definitions|Key Definitions]]
 - Discrete Log Problem:
 - CDH:
 - DDH:
 
-##  Core Concepts
+##  [[W8 Core Concepts|Core Concepts]]
 - Diffie–Hellman key exchange
 - Man-in-the-middle attacks
 - ElGamal encryption
 
-##  Attacks & Pitfalls
+##  [[W8 Attacks and Pitfalls|Attacks & Pitfalls]]
 - Missing authentication in DH
 - Reused randomness in ElGamal
 
-##  Intuition & Examples
+##  [[W8 Intuition and Examples|Intuition & Examples]]
 - Mixing secret colors analogy
 
+[[ElGamal worked example]]
 ##  Exam Notes
-- ElGamal is IND-CPA secure under DDH
-- DH needs authentication
+- Diffie–Hellman solves the key agreement problem.
+- Security is based on DLP, CDH, and DDH.
+- Diffie–Hellman alone provides no authentication.
+- Man-in-the-middle attacks break unauthenticated DH.
+- ElGamal is a public-key encryption scheme based on DH.
+- ElGamal is randomized and IND-CPA secure under DDH.
+- Reusing ElGamal randomness breaks security.
+- ElGamal is malleable and needs authentication for full security.
+- Ephemeral keys provide forward secrecy.
 
 ##  Links
 - Prev: [[W7 Notes]]
