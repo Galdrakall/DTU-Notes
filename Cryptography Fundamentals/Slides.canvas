@@ -1,0 +1,8 @@
+{
+	"nodes":[
+		{"id":"040ea7a73a963f65","type":"file","file":"DTU-Notes/Cryptography Fundamentals/Slides and Problem sheets/Solutions.pdf","x":-740,"y":-40,"width":800,"height":1180},
+		{"id":"8d3009ca8dab3acf","type":"file","file":"DTU-Notes/Cryptography Fundamentals/Slides and Problem sheets/Excercises.pdf","x":-1640,"y":-40,"width":900,"height":1180},
+		{"id":"457f41366eddf6f0","type":"file","file":"DTU-Notes/Cryptography Fundamentals/Slides and Problem sheets/Glærur.pdf","subpath":"#page=34","x":-1240,"y":-680,"width":900,"height":600,"color":"6"}
+	],
+	"edges":[]
+}
