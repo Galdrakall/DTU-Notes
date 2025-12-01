@@ -2,7 +2,23 @@ This is the central hub for all weekly lecture notes in Cryptography.
 Each week links to a dedicated note with detailed explanations, examples, and exercises.
 
 ---
-## [[Slides, Excercises and Solutions.canvas|Slides, Excercises and Solutions]]
+## [[Slides, Excercises and Solutions.canvas|Slides, Excercises and Solutions PDFs]]
+
+---
+## Problem Sheets solved
+- [[Problem Sheet 1]]
+- [[Problem Sheet 2]]
+- [[Problem Sheet 3]]
+- [[Problem Sheet 4]]
+- [[Problem Sheet 5]]
+- [[Problem Sheet 6]]
+- [[Problem Sheet 7]]
+- [[Problem Sheet 8]]
+- [[Problem Sheet 9]]
+- [[Problem Sheet 10]]
+- [[Problem Sheet 11]]
+- [[Problem Sheet 12]]
+
 ---
 ## Weeks
 ### Week 1 (Introduction and security mindset)
