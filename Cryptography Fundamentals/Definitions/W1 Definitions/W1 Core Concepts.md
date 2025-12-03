@@ -77,7 +77,7 @@ $$
 \Pr[\mathcal{A}(\lambda) = 1] \le \text{negl}(\lambda)
 $$
 
-where $text{negl}(\lambda)$ is a negligible function.
+where $\text{negl}(\lambda)$ is a negligible function.
 
 ## Negligible Function (Formal)
 A function  $f : \mathbb{N} \to \mathbb{R}$ is negligible if:
