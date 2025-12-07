@@ -3,120 +3,302 @@ These practice problems have the purpose of helping you understand the material 
 
 We denote vectors as $x \in \{0,1\}^\lambda$. By $x[i]$ we denote the $i$-th index of $x$, where $i \in \{1,\dots,\lambda\}$.  
 As in the lecture, we write $k \leftarrow K$ if $k$ is sampled from the set $K$ uniformly at random with probability $1/|K|$.
+---
+
+## Exercise 1 – Never use ECB
+
+### 1. The basic problem
+
+ECB mode encrypts each block independently:
+
+$$
+	\text{ECB}_k(m) = E_k(m[1]) \,\|\, E_k(m[2]) \,\| \cdots
+$$
+
+Consider two 2-block messages (block size $B$):
+
+- $m_0 = 0^B \,\|\, 1^B$
+- $m_1 = 0^B \,\|\, 0^B$
+
+Then
+
+- $\text{ECB}_k(m_0) = E_k(0^B) \,\|\, E_k(1^B)$
+- $\text{ECB}_k(m_1) = E_k(0^B) \,\|\, E_k(0^B)$
+
+Since $E_k$ is a permutation, $E_k(0^B) \neq E_k(1^B)$. Hence:
+
+- For $m_1$, the two ciphertext blocks are **equal**.
+- For $m_0$, the two ciphertext blocks are **different**.
+
+So the ciphertext reveals whether the two plaintext blocks are equal. ECB leaks structure and cannot be IND‑CPA secure.
 
 ---
 
-## Exercise 1 — Never Use ECB
+### 2. CPA adversary exploiting ECB leakage
 
-In the lecture, it was mentioned that the ECB mode of operation should never be used for anything, under any circumstances. In this exercise we will see that it is not even CPA secure.
+An adversary $\mathcal{A}$ in the LR IND‑CPA experiment:
 
-1. Assume ECB is used with a block cipher of block length $B$. Consider the encryptions of the messages
+```text
+A^LR(1^λ):
 
-   $$
-   0^B \,\|\, 1^B
-   \quad \text{and} \quad
-   0^B \,\|\, 0^B.
-   $$
+1. Define:
+   m0 := 0^B || 1^B
+   m1 := 0^B || 0^B
 
-   Can you see a problem?
+2. C := LR(m0, m1)
 
-2. Turn the discovered problem into an attacker against left-right CPA security.  
-   Your attacker should make **one** query to the library and always succeed.
+3. Parse C as C1 || C2
 
----
+4. If C1 == C2:
+	   output 1   // guess b = 1
+   else:
+	   output 0   // guess b = 0
+```
 
-## Exercise 2 — Padding for Modes of Operation
+Correctness:
 
-In the lecture, we saw that modes of operation allow encryption of messages of length $\ell \cdot B$ bits, where $B$ is the block length and $\ell \in \mathbb{N}$. Unfortunately, not every message is an exact multiple of $B$. To support messages of arbitrary length, a **padding scheme** is used.
+- If $b = 0$: $C = \text{ECB}_k(m_0) = E_k(0^B)\,\|\,E_k(1^B)$, so $C_1 \neq C_2$ and $\mathcal{A}$ outputs $0$ (correct).
+- If $b = 1$: $C = \text{ECB}_k(m_1) = E_k(0^B)\,\|\,E_k(0^B)$, so $C_1 = C_2$ and $\mathcal{A}$ outputs $1$ (correct).
 
-The **ANSI X.923 padding** works as follows:
+Thus
 
-1. Let $m$ be a message of $n$ bytes, such that
-   $$
-   \ell = \left\lfloor \frac{8n}{B} \right\rfloor .
-   $$
+$$
+\Pr[\mathcal{A} \text{ guesses correctly}] = 1
+$$
 
-2. Output the padded message
-   $$
-   m' = m \,\|\, 00 \,\|\, 00 \,\|\, \cdots \,\|\, 00 \,\|\, b,
-   $$
+and the advantage is
 
-   where the total length is $(\ell+1)\cdot(B/8)$ bytes, and $b$ is the number of bytes that were added to $m$.  
-   The value $b$ itself is encoded in one byte (8 bits).
+$$
+	ext{Adv}^{LR}_\mathcal{A} = \left|1 - \tfrac12\right| = \tfrac12.
+$$
 
-### Examples
+So ECB is **not CPA‑secure**.
 
-- If $m$ is **4 bytes short** of a multiple of $B$, append:
-### Questions
-
-1. Assume that $m$ already has a length that is a multiple of $B$ and that it ends with `01`.  
- Why must we still add a **full block** of length $B$ before encrypting, instead of encrypting the original message?
-
-2. What is the **maximal block size** (in bits) that can be supported by the ANSI X.923 padding scheme?
-
-3. Consider the **CTR mode** of operation. It can be modified to encrypt messages whose lengths are not multiples of $B$.  
- How can this be done?
+  
 
 ---
 
-## Exercise 3 — Adversarial Sampling
+  
 
-In class, it was claimed that any polynomial-time (in $\lambda$) attacker only has **negligible** distinguishing advantage for the following libraries:
+## Exercise 2 – Padding for modes of operation
 
-### Library $L_{\text{GenSample}}$
-Sample(R ⊆ {0,1}^λ):
+  
 
-1. r ← {0,1}^λ
-2. Output r
+ANSI X.923 padding:
 
-### Library $L_{\text{GenSampleIgnore}}$
-Sample(R ⊆ {0,1}^λ):
+Append zero bytes and then a final byte containing the number of bytes added.
 
-1. r ← {0,1}^λ \ R
-2. Output r
+  
 
-We will now show that this is true **if the attacker has to explicitly write down every element of $R$** before passing it to `Sample`.
+### 1. Why add a whole block when $m$ is already a multiple of $B$ and ends with 01?
 
-1. Devise a strategy to distinguish both libraries. Write down an adversary as an algorithm $A$.  
-   You may use one or more queries to `Sample`.
+If $m$ ends with the byte `01` and we **do not pad** when its length is already a multiple of $B$, then during unpadding we:
 
-2. Assume $A$ makes **one** query and $|R| = n$.
-   - For which outputs of $L_{\text{GenSample}}$ does $A$ behave identically to $L_{\text{GenSampleIgnore}}$?
-   - For which outputs does $A$ behave differently?
-   - How does this translate into the distinguishing advantage?
+- Read the last byte $b = 1$.
+- Remove the last $b$ bytes (1 byte) as “padding”.
 
-3. Assume that $A$ makes **two** calls to `Sample`.  
-   What is the **maximal distinguishing advantage** now?
+But this byte is real data, so the message is corrupted.
 
-4. Generalize your argument to $q \in \mathbb{N}$ calls to `Sample`.  
-   Use the **Birthday Bound** technique to derive an upper bound.
+To avoid that ambiguity, ANSI X.923 always appends a **full block** when the length is already a multiple of $B$:
 
-5. Assume $A$ makes $q \in \mathbb{N}$ calls and that generating each item of $R$ costs 1 unit of time.
-   Since $A$ runs in polynomial time in $\lambda$, conclude:
-   - $q$ is polynomial in $\lambda$
-   - $|R|$ is polynomial in $\lambda$
+$$
+00 || 00 || \dots || 00 || (B/8)
+$$
 
-   Finally, conclude why the distinguishing advantage must be **negligible**.
+with $B/8-1$ zero bytes followed by a byte of value $B/8$. This guarantees the last byte is always padding, not data.
 
-We will now show that this is true **if the attacker has to explicitly write down every element of $R$** before passing it to `Sample`.
+---
 
-1. Devise a strategy to distinguish both libraries. Write down an adversary as an algorithm $A$.  
-   You may use one or more queries to `Sample`.
+### 2. Maximum block size supported
 
-2. Assume $A$ makes **one** query and $|R| = n$.
-   - For which outputs of $L_{\text{GenSample}}$ does $A$ behave identically to $L_{\text{GenSampleIgnore}}$?
-   - For which outputs does $A$ behave differently?
-   - How does this translate into the distinguishing advantage?
+The padding length $b$ is stored in **one byte**, so:
 
-3. Assume that $A$ makes **two** calls to `Sample`.  
-   What is the **maximal distinguishing advantage** now?
+$$
 
-4. Generalize your argument to $q \in \mathbb{N}$ calls to `Sample`.  
-   Use the **Birthday Bound** technique to derive an upper bound.
+b \le 255.
 
-5. Assume $A$ makes $q \in \mathbb{N}$ calls and that generating each item of $R$ costs 1 unit of time.
-   Since $A$ runs in polynomial time in $\lambda$, conclude:
-   - $q$ is polynomial in $\lambda$
-   - $|R|$ is polynomial in $\lambda$
+$$
 
-   Finally, conclude why the distinguishing advantage must be **negligible**.
+Worst case requires $b = B/8$, so:
+
+$$
+
+B/8 \le 255 \quad\Rightarrow\quad B \le 2040 \text{ bits}.
+
+$$
+
+**Maximum block size: 2040 bits.**
+
+---
+
+### 3. CTR mode for messages with length not multiple of $B$
+
+CTR mode encrypts by XORing plaintext with keystream blocks and **does not require padding**, even for partial blocks.
+
+Algorithm (block size $B$):
+
+```text
+Input: key k, message m of L bits, initial counter ctr0
+
+1. Split m into blocks:
+	M1, ..., M_{ℓ-1} of B bits, and M_ℓ of t ≤ B bits.
+
+2. For i = 1,...,ℓ-1:
+	S_i := E_k(ctr0 + (i-1))
+	C_i := M_i XOR S_i
+
+3. For the last (possibly partial) block:
+	S_ℓ := E_k(ctr0 + (ℓ-1))
+	C_ℓ := M_ℓ XOR (first t bits of S_ℓ)
+
+4. Output C1 || ... || C_ℓ (and ctr0).
+```
+---
+
+## Exercise 3 – Adversarial Sampling
+
+Two libraries:
+
+- **LGenSample**: sample uniformly from $\{0,1\}^\lambda$
+
+- **LGenSampleIgnore**: sample uniformly from $\{0,1\}^\lambda \setminus R$
+
+Difference occurs only if the output lands in $R$.
+
+---
+
+### 1. Distinguishing strategy
+
+Adversary $A$:
+
+```text
+
+A^Sample(1^λ):
+
+1. Choose any non-empty R.
+
+2. r := Sample(R)
+
+3. If r ∈ R then output 1 else output 0.
+
+```
+
+Under LGenSampleIgnore: always outputs 0.
+
+Under LGenSample: outputs 1 iff $r \in R$.
+
+---
+
+### 2. Advantage for one call, $|R| = n$
+
+Under LGenSample:
+
+$$
+
+\Pr[r \in R] = \frac{n}{2^\lambda}.
+
+$$
+
+Under LGenSampleIgnore:
+
+$$
+
+\Pr[r \in R] = 0.
+
+$$
+
+Thus max advantage:
+
+$$
+
+\text{Adv}^{(1)}_A = \frac{n}{2^\lambda}.
+
+$$
+
+---
+
+### 3. Two calls: sets $R_1$, $R_2$
+
+Difference occurs only when:
+
+$$
+
+E = \{ r_1 \in R_1 \} \cup \{ r_2 \in R_2 \}.
+
+$$
+
+Using union bound:
+
+$$
+
+\Pr[E] \le \frac{|R_1|}{2^\lambda} + \frac{|R_2|}{2^\lambda}.
+
+$$
+
+Thus:
+
+$$
+
+\text{Adv}^{(2)}_A \le \frac{|R_1| + |R_2|}{2^\lambda}.
+
+$$
+
+---
+
+### 4. $q$ calls
+
+Bad event:
+
+$$
+
+E = \bigcup_{i=1}^q \{r_i \in R_i\}.
+
+$$
+
+Union bound:
+
+$$
+
+\Pr[E] \le \sum_{i=1}^q \frac{|R_i|}{2^\lambda}.
+
+$$
+
+Thus:
+
+$$
+
+\text{Adv}^{(q)}_A \le \frac{1}{2^\lambda} \sum_{i=1}^q |R_i|.
+
+$$
+
+---
+
+### 5. Polynomial-time adversary → negligible advantage
+
+Since the adversary must **explicitly write all elements of each $R_i$**, and has only **polynomial time**:
+
+- Number of queries $q \le p_1(\lambda)$
+
+- Each $|R_i| \le p_2(\lambda)$
+
+Thus:
+
+$$
+
+\sum_{i=1}^q |R_i| \le p_1(\lambda) p_2(\lambda) = p(\lambda).
+
+$$
+
+Then:
+
+$$
+
+\text{Adv}^{(q)}_A \le \frac{p(\lambda)}{2^\lambda},
+
+$$
+
+which is negligible.
+
+Therefore every polynomial-time adversary has **negligible advantage**.
+
+---

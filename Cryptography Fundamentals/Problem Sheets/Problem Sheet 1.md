@@ -17,8 +17,9 @@ If $D$ is the uniform distribution, i.e. $D(x) = \frac{1}{|V|}$ for all $x$, the
 
 Let $X_1, X_2, X_3, X_4 \leftarrow \{1,2,3,4,5,6\}$ be four throws of a fair die. Compute the probability that $X_i = 6$ for at least one $i \in \{1,2,3,4\}$. Write down your calculation using (some of) the notation introduced above.
 
-### Solution a)
-$$1 -P(x_1 \neq 6 \cap x_2 \neq 6 \cap x_3 \neq 6 \cap x_4 \neq 6) = 1 - P(x_1 \neq 6)^4 = 1- (\frac{5}{6})^4 $$
+>> Solution a)
+>> $$1 -P(x_1 \neq 6 \cap x_2 \neq 6 \cap x_3 \neq 6 \cap x_4 \neq 6) = 1 - P(x_1 \neq 6)^4 = 1- (\frac{5}{6})^4 $$
+
 ### b)
 
 Your friend offers you the following bet:
@@ -42,9 +43,9 @@ Describe a strategy and compute its winning probability. Is your strategy the be
 ### Solution b)
 
 Using the **first option** we get 
-$$P(win) = (\frac{1}{6})^6 \rightarrow E[gain] = P(win) \cdot 50 - P(lose) \cdot 1$$
+$$P(win) = (\frac{1}{2})^6 \rightarrow E[gain] = P(win) \cdot 50 - P(lose) \cdot 1$$
 Which gives us
-$$\frac{1}{6} \cdot 50 - (1-\frac{1}{26})\cdot 1 = -\frac{13}{64} $$
+$$\frac{1}{2^6} \cdot 50 - (1-\frac{1}{2^6})\cdot 1 = -\frac{13}{64} $$
 Which is not optimal as we lose money.
 
 With the **second option** we can set it up such as:
@@ -106,7 +107,7 @@ $$
 $$
 p_1(1,0) = 0, p_1(1, 1) = \frac{1}{2}
 $$
-Not independent as $P(X_i=0, Y_i0) = \frac{1}{2} \neq P(X_i=0)P(Y_i=0) = \frac{1}{2} \cdot \frac{1}{2}$
+Not independent as $P(X_i=0, Y_i=0) = \frac{1}{2} \neq P(X_i=0)P(Y_i=0) = \frac{1}{2} \cdot \frac{1}{2}$
 We can then do the same for the rest.
 
 ---
